@@ -8,37 +8,42 @@
 import SwiftUI
 
 struct ContentView: View {
-
-    func adjustCardNumber(by offset: Int, symbol: String) -> some View
+    func adjustCardNumber(by_offset: Int, symbol: String) -> some View
     {
-        if(offset<0)
+        return Button(symbol)
         {
-            
-        }
-        else
-        {
-            
-        }
+                if(by_offset+card_number >= 2 && by_offset+card_number <= 8)
+                {
+                    card_number+=by_offset
+                }
+        }.frame(width: 20,height: 20).border(.blue)
     }
-    var karty:Array<any View>
-    let emotki:Array<String> = ["😎","😁","😢","😂","😡","🤬","🤯","😰"]
+    var cardAdder:some View{
+        adjustCardNumber(by_offset: 2, symbol: "+")
+    }
+    var cardDeleter:some View{
+        adjustCardNumber(by_offset: -2, symbol: "-")
+    }
+    var cardDisplay:some View {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))]){
+            ForEach(0 ..< card_number,id: \.self)
+            {
+                index in CardView(inside: $emotki[index]).aspectRatio(4/1, contentMode: .fit)
+            }
+        }.foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+        
+    }
+    @State var emotki:Array<String> = ["😎","😁","😢","😂","😡","🤬","🤯","😰"]
     @State var card_number:Int=0
     var body: some View {
         VStack {
+            cardDisplay
+            Spacer()
             HStack
             {
-                Button("+"){
-                    if(card_number<emotki.count)
-                    {
-                        //cos
-                    }
-                }.frame(width: 20,height: 20).border(.blue)
-                Button("-"){
-                    if(card_number>2)
-                    {
-                      //cos
-                    }
-                }.frame(width: 20,height: 20).border(.blue)
+                cardAdder
+                Spacer()
+                cardDeleter
             }
         }
         .padding()
