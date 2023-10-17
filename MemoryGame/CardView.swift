@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CardView: View {
     @Binding var inside:String
+    @Binding var themeColor:Color
     @State var hidden1:Bool=true
     @State var hidden2:Bool=true
     @State var opacity1:Double=0.0
@@ -23,9 +24,9 @@ struct CardView: View {
                     {
                     
                     
-                    RoundedRectangle(cornerRadius: 12).fill(.white).stroke( .blue,lineWidth: 2)
-                    Text(inside)
-                    RoundedRectangle(cornerRadius: 12).fill(.blue).opacity(opacity2)
+                    RoundedRectangle(cornerRadius: 12).fill(.white).stroke( themeColor,lineWidth: 2)
+                        Text(inside).font(.largeTitle)
+                    RoundedRectangle(cornerRadius: 12).fill(themeColor).opacity(opacity2)
                    
                     }
                 }.onTapGesture {
@@ -39,5 +40,5 @@ struct CardView: View {
 }			
 
 #Preview {
-    CardView(inside: .constant("😁"))
+    CardView(inside: .constant("😁"),themeColor: .constant(Color.blue))
 }

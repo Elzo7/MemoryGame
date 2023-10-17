@@ -8,11 +8,19 @@
 import SwiftUI
 
 struct ThemeButton: View {
+    @Binding var inside:String
+    @Binding var insideText:String
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Group
+        {
+            VStack{
+                Text(inside).font(.largeTitle)
+                Text(insideText).font(.footnote)
+            }
+        }
     }
 }
 
 #Preview {
-    ThemeButton()
+    ThemeButton(inside:.constant("☀︎"),insideText: .constant("Motyw"))
 }
