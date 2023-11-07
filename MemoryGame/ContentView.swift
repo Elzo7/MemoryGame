@@ -25,18 +25,7 @@ struct ContentView: View {
             emotki=emotes.shuffled()
         }
     }
-    var motive1:some View
-    {
-        motiveChanges(emotes: ["😎","😁","😢","😂","😡","🤬","🤯","😰"], themeColor: .blue, ins: "☀︎", insText: "Motyw 1")
-    }
-    var motive2:some View
-    {
-        motiveChanges(emotes: ["🍌","🍒","🍋","🍑","🍉","🥥","🫐","🍍"], themeColor: .red, ins: "☕︎", insText: "Motyw 2")
-    }
-    var motive3:some View
-    {
-        motiveChanges(emotes: ["♈️","♋️","♌️","♏️","♎️","♑️","♐️","⚛️"], themeColor: .green, ins: "♈︎", insText: "Motyw 3")
-    }
+   
     var cardAdder:some View{
         adjustCardNumber(by_offset: 2, symbol: "+")
     }
@@ -52,7 +41,7 @@ struct ContentView: View {
         }.foregroundColor(.blue)
         
     }
-    @State var color:Color = Color.red
+    @State var color:Color = Color.blue
     @State var emotki:Array<String> = ["😎","😁","😢","😂","😡","🤬","🤯","😰"]
     @State var card_number:Int=4
     var body: some View {
@@ -66,13 +55,7 @@ struct ContentView: View {
                 Spacer()
                // cardDeleter
             }
-            HStack{
-                motive1
-                Spacer()
-                motive2
-                Spacer()
-                motive3
-            }
+            motives
         }
         .padding()
     }
