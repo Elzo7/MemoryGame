@@ -8,59 +8,50 @@
 import SwiftUI
 
 struct ContentView: View {
-    func adjustCardNumber(by_offset: Int, symbol: String) -> some View
-    {
-        return Button(symbol)
-        {
-            if(by_offset+card_number >= 2 && by_offset+card_number <= 8)
-            {
-                card_number+=by_offset
-            }
-        }.frame(width: 20,height: 20).border(.blue)
-    }
-    func motiveChanges (emotes:Array<String>,themeColor:Color,ins:String,insText:String)->some View
-    {
-        return ThemeButton(inside: .constant(ins), insideText: .constant(insText)).foregroundColor(themeColor).onTapGesture {
-            color=themeColor
-            emotki=emotes.shuffled()
-        }
-    }
-   
-    var cardAdder:some View{
-        adjustCardNumber(by_offset: 2, symbol: "+")
-    }
-    var cardDeleter:some View{
-        adjustCardNumber(by_offset: -2, symbol: "-")
-    }
-    var cardDisplay:some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]){
-            ForEach(0 ..< card_number,id: \.self)
-            {
-                index in CardView(inside: $emotki[index],themeColor: $color).aspectRatio(2/3, contentMode: .fit)
-            }
-        }.foregroundColor(.blue)
-        
-    }
-    @State var color:Color = Color.blue
-    @State var emotki:Array<String> = ["😎","😁","😢","😂","😡","🤬","🤯","😰"]
-    @State var card_number:Int=4
+    
+    @ObservedObject
+    var viewmodel:MemoGameViewModel
     var body: some View {
         VStack {
             Text("MEMO").font(.largeTitle).padding()
             cardDisplay
-            Spacer()
-            HStack
-            {
-               // cardAdder
-                Spacer()
-               // cardDeleter
-            }
-            motives
+            Button("SHUFFLE"){
+                viewmodel.shuffle()
+                       }
+            .foregroundColor(viewmodel.color)
+            przyciskiMotywow
         }
         .padding()
     }
+    
+    var cardDisplay:some View {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 85),spacing: 0)],spacing: 0){
+            ForEach(viewmodel.cards)
+            {
+                card in CardView(card: card)
+                    .aspectRatio(2/3, contentMode: .fit)
+                                        .padding(4)
+                                        .onTapGesture {
+                    viewmodel.choose(card: card)
+                }
+            }
+        }.foregroundColor(viewmodel.color)
+        
+    }
+    var przyciskiMotywow:some View
+    {
+        HStack
+        {
+            ThemeButton(viewmodel: viewmodel, theme: "Motyw 1", inside: "☺︎", insideText: "Motyw 1")
+            Spacer()
+            ThemeButton(viewmodel: viewmodel, theme: "Motyw 2", inside: "♋︎", insideText: "Motyw 2")
+            Spacer()
+            ThemeButton(viewmodel: viewmodel, theme: "Motyw 3", inside: "☭", insideText: "Motyw 2")
+        }
+    }
+     
 }
 
 #Preview {
-    ContentView()
+    ContentView(viewmodel:MemoGameViewModel())
 }

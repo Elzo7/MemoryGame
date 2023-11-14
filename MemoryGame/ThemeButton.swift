@@ -8,19 +8,29 @@
 import SwiftUI
 
 struct ThemeButton: View {
-    @Binding var inside:String
-    @Binding var insideText:String
+    @ObservedObject
+    var viewmodel:MemoGameViewModel
+    let theme:String
+    let inside:String
+    let insideText:String
     var body: some View {
         Group
         {
-            VStack{
-                Text(inside).font(.largeTitle)
-                Text(insideText).font(.footnote)
-            }
+            Button(
+                action: {
+                viewmodel.motiveChanges(motyw: theme)
+            },label:{
+                    VStack{
+                        Text(inside).font(.largeTitle).foregroundColor(viewmodel.color)
+                        Text(insideText).font(.footnote).foregroundColor(viewmodel.color)
+                    }
+                }
+                
+                    )
         }
     }
 }
 
 #Preview {
-    ThemeButton(inside:.constant("☀︎"),insideText: .constant("Motyw"))
+    ThemeButton(viewmodel:MemoGameViewModel(),theme:"Motyw 1",inside:"Motyw 1",insideText:"☀︎")
 }

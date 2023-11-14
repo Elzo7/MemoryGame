@@ -8,32 +8,30 @@
 import Foundation
 
 struct MemoGameModel<CardContent>
-{   var cards: Array<CardModel>
+{   private (set)var cards: Array<CardModel>
     init(numberOfPairsOfCards: Int, cardContentFactory: (Int)->CardContent)
     {
         cards = []
         for i in (0..<numberOfPairsOfCards)
         {
-            cards.append(CardModel(inside: cardContentFactory(i)))
-            cards.append(CardModel(inside: cardContentFactory(i)))
+            cards.append(CardModel(id:String(i)+"a",inside: cardContentFactory(i)))
+            cards.append(CardModel(id:String(i)+"b",inside: cardContentFactory(i)))
         }
     }
-    func chooseCard(card:CardModel)
+    mutating func chooseCard(card:CardModel)
     {
-       //card.reverseCard()
+        let index = cards.firstIndex(where: {$0.id == card.id})!
+        cards[index].reversed.toggle()
     }
-    struct CardModel
+    mutating func cardShuffle()
     {
-        public var reversed:Bool = false
-        public var matching:Bool = false
-        public var inside: CardContent
-        init(inside:CardContent)
-        {
-            self.inside = inside
-        }
-        mutating func reverseCard()
-        {
-            self.reversed=true
-        }
+        cards.shuffle()
+    }
+    struct CardModel: Identifiable
+    {
+        var id:String
+        var reversed:Bool = false
+        var matching:Bool = false
+        var inside: CardContent
     }
 }

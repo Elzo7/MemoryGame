@@ -8,37 +8,35 @@
 import SwiftUI
 
 struct CardView: View {
-    @Binding var inside:String
-    @Binding var themeColor:Color
-    @State var hidden1:Bool=true
-    @State var hidden2:Bool=true
-    @State var opacity1:Double=0.0
-    @State var opacity2:Double=1.0
+    
+    var card : MemoGameModel<String>.CardModel
+    init(card: MemoGameModel<String>.CardModel) {
+        self.card = card
+    }
     var body: some View {
         HStack
         {
-            
                 ZStack
                 {
+                    let CardBack = RoundedRectangle(cornerRadius: 12)
+
                     Group
                     {
-                    
-                    
-                    RoundedRectangle(cornerRadius: 12).fill(.white).stroke( themeColor,lineWidth: 2)
-                        Text(inside).font(.largeTitle)
-                    RoundedRectangle(cornerRadius: 12).fill(themeColor).opacity(opacity2)
+                        CardBack.fill(.white)
+                        CardBack.stroke( .blue,lineWidth: 2)
+                        Text(card.inside).font(.system(size: 200))
+                            .minimumScaleFactor(0.01)
+                            .aspectRatio(1, contentMode: .fit)
+                       
                    
                     }
-                }.onTapGesture {
-                    hidden1 = !hidden1
-                    opacity2 = hidden1 ? 1.0 : 0.0
-                
-                
+                    .opacity(card.reversed ? 1 : 0) 
+                    CardBack.fill().opacity(card.reversed ? 0 : 1)
+                }
             }
         }
     }
-}			
 
 #Preview {
-    CardView(inside: .constant("😁"),themeColor: .constant(Color.blue))
+    CardView(card: MemoGameModel<String>.CardModel(id: "1", inside: "Test"))
 }
