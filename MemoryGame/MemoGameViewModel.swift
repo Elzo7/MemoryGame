@@ -31,12 +31,15 @@ class MemoGameViewModel:ObservableObject
         case "Motyw 1":
             MemoGameViewModel.zawartosc=["😎","😁","😢","😂","😡","🤬","🤯","😰"]
             color=Color.blue
+            model=MemoGameViewModel.createModel()
         case "Motyw 2":
-            MemoGameViewModel.zawartosc=["😎","😁","😢","😂","😡","🤬","🤯","😰"]
+            MemoGameViewModel.zawartosc=["♈️","♉️","♊️","♋️","♌️","♍️","♎️","♏️"]
             color=Color.red
+            model=MemoGameViewModel.createModel()
         default:
-            MemoGameViewModel.zawartosc=["😎","😁","😢","😂","😡","🤬","🤯","😰"]
+            MemoGameViewModel.zawartosc=["🇫🇷","🇫🇮","🇹🇩","🇨🇮","🇪🇪","🇳🇮","🇸🇰","🇸🇾"]
             color=Color.green
+            model=MemoGameViewModel.createModel()
         }
         
     }
@@ -49,6 +52,7 @@ class MemoGameViewModel:ObservableObject
         }
         
         func choose(card: MemoGameModel<String>.CardModel){
+            
             model.chooseCard(card:card)
         }
     

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MemoGameModel<CardContent>
+struct MemoGameModel<CardContent> where CardContent:Equatable
 {   private (set)var cards: Array<CardModel>
     init(numberOfPairsOfCards: Int, cardContentFactory: (Int)->CardContent)
     {
@@ -21,13 +21,41 @@ struct MemoGameModel<CardContent>
     mutating func chooseCard(card:CardModel)
     {
         let index = cards.firstIndex(where: {$0.id == card.id})!
-        cards[index].reversed.toggle()
+        if cards[index].matching == false
+        {
+            if let potentialMatch=indexOfOneAndOnlyFaceUpCard
+            {
+                if cards[index].inside == cards[potentialMatch].inside
+                {
+                    cards[index].matching = true
+                    cards[potentialMatch].matching = true
+                }
+            }
+            else
+            {
+                indexOfOneAndOnlyFaceUpCard=index
+            }
+            cards[index].reversed = true
+        }
     }
     mutating func cardShuffle()
     {
         cards.shuffle()
     }
-    struct CardModel: Identifiable
+    var indexOfOneAndOnlyFaceUpCard: Int?
+    {
+        get {
+            if cards.filter({$0.reversed==true}).indices.count == 1{
+                return cards.filter{$0.reversed == true}.indices[0]
+            }
+            else
+            {
+                return nil
+            }
+        }
+        set {cards.indices.forEach({cards[$0].reversed = $0 == newValue})}
+    }
+    struct CardModel: Identifiable,Equatable
     {
         var id:String
         var reversed:Bool = false

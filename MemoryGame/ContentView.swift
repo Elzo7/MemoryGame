@@ -14,7 +14,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Text("MEMO").font(.largeTitle).padding()
-            cardDisplay
+            cardDisplay.animation(.default, value: viewmodel.cards)
             Button("SHUFFLE"){
                 viewmodel.shuffle()
                        }
@@ -46,7 +46,7 @@ struct ContentView: View {
             Spacer()
             ThemeButton(viewmodel: viewmodel, theme: "Motyw 2", inside: "♋︎", insideText: "Motyw 2")
             Spacer()
-            ThemeButton(viewmodel: viewmodel, theme: "Motyw 3", inside: "☭", insideText: "Motyw 2")
+            ThemeButton(viewmodel: viewmodel, theme: "Motyw 3", inside: "☭", insideText: "Motyw 3")
         }
     }
      

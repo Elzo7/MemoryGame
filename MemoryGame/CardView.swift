@@ -23,7 +23,7 @@ struct CardView: View {
                     Group
                     {
                         CardBack.fill(.white)
-                        CardBack.stroke( .blue,lineWidth: 2)
+                        CardBack.stroke(lineWidth: 2)
                         Text(card.inside).font(.system(size: 200))
                             .minimumScaleFactor(0.01)
                             .aspectRatio(1, contentMode: .fit)
